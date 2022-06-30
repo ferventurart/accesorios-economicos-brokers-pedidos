@@ -65,6 +65,29 @@ class Setting extends BaseController
             $usuario['telefono'] = $form['telefono'];
             $usuario['nombre'] = $form['nombre'];
 
+            $validateImage = $this->validate([
+                'file' => [
+                    'uploaded[file]',
+                    'ext_in[file,jpg,jpeg,png]',
+                    'max_size[file,1024]',
+                ],
+            ]);
+
+            if ($validateImage) {
+                $file = $this->request->getFile('file');
+                $newName = $file->getRandomName(); 
+                $file->move('../public/img/avatars',  $newName);
+                
+
+                if(isset($usuario['fotografia_url'])){
+                    $fileToDelete = '../public'.str_replace(base_url(), "", $usuario['fotografia_url']);
+                    unlink($fileToDelete);
+                }
+
+                $usuario['fotografia_url'] = base_url()."/img/avatars/".$newName;
+                $this->session->set('fotografia_url', $usuario['fotografia_url']);
+            }
+
             if ($this->usuarioModel->save($usuario)) {
                 $this->session->set('nombre', $form['nombre']);
                 configure_flash_alert('success', 'Informaci&oacute;n actualizada.', 'Su informaci&oacute;n fue actualizada exitosamente.');

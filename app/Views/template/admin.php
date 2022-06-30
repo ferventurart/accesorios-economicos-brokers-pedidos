@@ -38,7 +38,7 @@
                 <div class="sidebar-user">
                     <div class="d-flex justify-content-center">
                         <div class="flex-shrink-0">
-                            <img src="img/avatars/avatar.jpg" class="avatar img-fluid rounded me-1" alt="<?= $_SESSION['nombre']; ?>" />
+                            <img src="<?= $_SESSION['fotografia_url']; ?>" class="avatar img-fluid rounded me-1" alt="<?= $_SESSION['nombre']; ?>" />
                         </div>
                         <div class="flex-grow-1 ps-2">
                             <a class="sidebar-user-title dropdown-toggle" href="#" data-bs-toggle="dropdown">
@@ -418,7 +418,7 @@
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-icon pe-md-0 dropdown-toggle" href="#" data-bs-toggle="dropdown">
-                                <img src="img/avatars/avatar.jpg" class="avatar img-fluid rounded" alt="<?= $_SESSION['nombre']; ?>" />
+                                <img src="<?= $_SESSION['fotografia_url']; ?>" class="avatar img-fluid rounded" alt="<?= $_SESSION['nombre']; ?>" />
                             </a>
                             <div class="dropdown-menu dropdown-menu-end">
                                 <a class="dropdown-item" href=<?= base_url('/mi-perfil') ?>><i class="align-middle me-1" data-feather="user"></i> Perfil</a>

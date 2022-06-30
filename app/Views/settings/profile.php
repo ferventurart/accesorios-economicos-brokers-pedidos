@@ -41,7 +41,7 @@ if ($session->getFlashdata('password_tab_active')) {
                                 <h5 class="card-title mb-0">Informaci&oacute;n de Usuario</h5>
                             </div>
                             <div class="card-body">
-                                <form id="updateForm" method="POST" action="<?= base_url('update-profile') ?>">
+                                <form id="updateForm" method="POST" action="<?= base_url('update-profile') ?>" enctype="multipart/form-data">
                                     <?= csrf_field() ?>
                                     <div class="row">
                                         <div class="col-md-8">
@@ -60,12 +60,15 @@ if ($session->getFlashdata('password_tab_active')) {
                                         </div>
                                         <div class="col-md-4">
                                             <div class="text-center">
-                                                <img alt="Charles Hall" src="img/avatars/avatar.jpg" class="rounded-circle img-responsive mt-2" width="128" height="128" />
+                                                <img alt="<?= $usuario['nombre']; ?>" id="imageUpload" src="<?= $usuario['fotografia_url']; ?>" class="rounded-circle img-responsive mt-2" width="128" height="128">
                                                 <div class="mt-2">
-                                                    <span class="btn btn-primary"><i class="fas fa-upload"></i> Subir</span>
+                                                    <label for="finput" class="btn btn-primary"><i class="fas fa-upload"></i> Subir</label>
                                                 </div>
-                                                <small>Para mejores resultados, usa una imagen al menos 128px por 128px en fotmato .jpg</small>
+                                                <small>Para obtener mejores resultados, use una imagen de al menos 128 px por 128 px en formato .jpg</small>
                                             </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <input type="file" name="file" id="finput" style="visibility:hidden;" accept="image/*" onchange="onFileUpload(this);">
                                         </div>
                                     </div>
                                     <button type="submit" class="btn btn-primary">Guardar Cambios</button>
@@ -387,5 +390,17 @@ if ($session->getFlashdata('password_tab_active')) {
             submitDeliveryButton.innerHTML = 'Guardando...';
         });
     });
+</script>
+<script>
+    function onFileUpload(input, id) {
+        id = id || '#imageUpload';
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                $(id).attr('src', e.target.result).width(128).height(128)
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
 </script>
 <?= $this->endSection() ?>
