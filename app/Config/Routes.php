@@ -66,6 +66,16 @@ $routes->post('/update-delivery-address', 'Setting::updateDeliveryAddress', ['fi
 $routes->get('/inicio', 'Home::index', ['filter' => 'authGuard']);
 /*
  * --------------------------------------------------------------------
+ * Rol Controller
+ * --------------------------------------------------------------------
+ */
+$routes->get('/roles', 'Rol::index', ['filter' => 'authGuard']);
+$routes->get('/get-roles', 'Rol::getRoles', ['filter' => 'authGuard']);
+$routes->get('/get-rol/(:any)', 'Rol::getRol/$1', ['filter' => 'authGuard']);
+$routes->get('/delete-rol/(:any)', 'Rol::deleteRol/$1', ['filter' => 'authGuard']);
+$routes->post('/roles', 'Rol::saveRoles', ['filter' => 'authGuard']);
+/*
+ * --------------------------------------------------------------------
  * Additional Routing
  * --------------------------------------------------------------------
  *

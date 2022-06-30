@@ -50,7 +50,7 @@
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#"><i class="align-middle me-1" data-feather="help-circle"></i> Soporte Tecnico</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="<?= base_url('logout')?>">Cerrar Sesi&oacute;n</a>
+                                <a class="dropdown-item" href="<?= base_url('logout') ?>">Cerrar Sesi&oacute;n</a>
                             </div>
 
                             <div class="sidebar-user-subtitle">Designer</div>
@@ -59,6 +59,14 @@
                 </div>
 
                 <ul class="sidebar-nav">
+                    <li class="sidebar-header">
+                        Ajustes
+                    </li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="<?= base_url('roles') ?>">
+                            <i class="align-middle" data-feather="user"></i> <span class="align-middle">Roles de Usuario</span>
+                        </a>
+                    </li>
                     <li class="sidebar-header">
                         Pages
                     </li>
@@ -426,7 +434,7 @@
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#"><i class="align-middle me-1" data-feather="help-circle"></i> Soporte Tecnico</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="<?= base_url('logout')?>">Cerrar Sesi&oacute;n</a>
+                                <a class="dropdown-item" href="<?= base_url('logout') ?>">Cerrar Sesi&oacute;n</a>
                             </div>
                         </li>
                     </ul>
