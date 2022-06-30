@@ -25,8 +25,8 @@
             <div class="sidebar-content js-simplebar">
                 <a class="sidebar-brand" href="<?= base_url('inicio') ?>">
                     <span class="sidebar-brand-text align-middle">
-                        AdminKit
-                        <sup><small class="badge bg-primary text-uppercase">Pro</small></sup>
+                        Pedidos - Brokers
+                        <sup><small class="badge bg-primary text-uppercase">1.0</small></sup>
                     </span>
                     <svg class="sidebar-brand-icon align-middle" width="32px" height="32px" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter" color="#FFFFFF" style="margin-left: -3px">
                         <path d="M12 4L20 8.00004L12 12L4 8.00004L12 4Z"></path>
@@ -38,21 +38,20 @@
                 <div class="sidebar-user">
                     <div class="d-flex justify-content-center">
                         <div class="flex-shrink-0">
-                            <img src="img/avatars/avatar.jpg" class="avatar img-fluid rounded me-1" alt="Charles Hall" />
+                            <img src="img/avatars/avatar.jpg" class="avatar img-fluid rounded me-1" alt="<?= $_SESSION['nombre']; ?>" />
                         </div>
                         <div class="flex-grow-1 ps-2">
                             <a class="sidebar-user-title dropdown-toggle" href="#" data-bs-toggle="dropdown">
-                                Charles Hall
+                                <?= $_SESSION['nombre']; ?>
                             </a>
                             <div class="dropdown-menu dropdown-menu-start">
-                                <a class="dropdown-item" href="pages-profile.html"><i class="align-middle me-1" data-feather="user"></i> Profile</a>
-                                <a class="dropdown-item" href="#"><i class="align-middle me-1" data-feather="pie-chart"></i> Analytics</a>
+                                <a class="dropdown-item" href="pages-profile.html"><i class="align-middle me-1" data-feather="user"></i> Perfil</a>
+                                <a class="dropdown-item" href="#"><i class="align-middle me-1" data-feather="pie-chart"></i> Analiticas</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="pages-settings.html"><i class="align-middle me-1" data-feather="settings"></i> Settings &
-                                    Privacy</a>
-                                <a class="dropdown-item" href="#"><i class="align-middle me-1" data-feather="help-circle"></i> Help Center</a>
+                                <a class="dropdown-item" href="pages-settings.html"><i class="align-middle me-1" data-feather="settings"></i> Ajustes</a>
+                                <a class="dropdown-item" href="#"><i class="align-middle me-1" data-feather="help-circle"></i> Soporte Tecnico</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="<?= base_url('logout')?>">Log out</a>
+                                <a class="dropdown-item" href="<?= base_url('logout')?>">Cerrar Sesi&oacute;n</a>
                             </div>
 
                             <div class="sidebar-user-subtitle">Designer</div>
@@ -259,19 +258,6 @@
                         </ul>
                     </li>
                 </ul>
-
-                <div class="sidebar-cta">
-                    <div class="sidebar-cta-content">
-                        <strong class="d-inline-block mb-2">Weekly Sales Report</strong>
-                        <div class="mb-3 text-sm">
-                            Your weekly sales report is ready for download!
-                        </div>
-
-                        <div class="d-grid">
-                            <a href="https://adminkit.io/" class="btn btn-outline-primary" target="_blank">Download</a>
-                        </div>
-                    </div>
-                </div>
             </div>
         </nav>
 
@@ -283,68 +269,12 @@
 
                 <form class="d-none d-sm-inline-block">
                     <div class="input-group input-group-navbar">
-                        <input type="text" class="form-control" placeholder="Search…" aria-label="Search">
+                        <input type="text" class="form-control" placeholder="Buscar por numero de pedido" aria-label="Buscar">
                         <button class="btn" type="button">
                             <i class="align-middle" data-feather="search"></i>
                         </button>
                     </div>
                 </form>
-
-                <ul class="navbar-nav d-none d-lg-flex">
-                    <li class="nav-item px-2 dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="megaDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Mega Menu
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-start dropdown-mega" aria-labelledby="megaDropdown">
-                            <div class="d-md-flex align-items-start justify-content-start">
-                                <div class="dropdown-mega-list">
-                                    <div class="dropdown-header">UI Elements</div>
-                                    <a class="dropdown-item" href="#">Alerts</a>
-                                    <a class="dropdown-item" href="#">Buttons</a>
-                                    <a class="dropdown-item" href="#">Cards</a>
-                                    <a class="dropdown-item" href="#">Carousel</a>
-                                    <a class="dropdown-item" href="#">General</a>
-                                    <a class="dropdown-item" href="#">Grid</a>
-                                    <a class="dropdown-item" href="#">Modals</a>
-                                    <a class="dropdown-item" href="#">Tabs</a>
-                                    <a class="dropdown-item" href="#">Typography</a>
-                                </div>
-                                <div class="dropdown-mega-list">
-                                    <div class="dropdown-header">Forms</div>
-                                    <a class="dropdown-item" href="#">Layouts</a>
-                                    <a class="dropdown-item" href="#">Basic Inputs</a>
-                                    <a class="dropdown-item" href="#">Input Groups</a>
-                                    <a class="dropdown-item" href="#">Advanced Inputs</a>
-                                    <a class="dropdown-item" href="#">Editors</a>
-                                    <a class="dropdown-item" href="#">Validation</a>
-                                    <a class="dropdown-item" href="#">Wizard</a>
-                                </div>
-                                <div class="dropdown-mega-list">
-                                    <div class="dropdown-header">Tables</div>
-                                    <a class="dropdown-item" href="#">Basic Tables</a>
-                                    <a class="dropdown-item" href="#">Responsive Table</a>
-                                    <a class="dropdown-item" href="#">Table with Buttons</a>
-                                    <a class="dropdown-item" href="#">Column Search</a>
-                                    <a class="dropdown-item" href="#">Muulti Selection</a>
-                                    <a class="dropdown-item" href="#">Ajax Sourced Data</a>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="resourcesDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Resources
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="resourcesDropdown">
-                            <a class="dropdown-item" href="https://adminkit.io/" target="_blank"><i class="align-middle me-1" data-feather="home"></i>
-                                Homepage</a>
-                            <a class="dropdown-item" href="https://adminkit.io/docs/" target="_blank"><i class="align-middle me-1" data-feather="book-open"></i>
-                                Documentation</a>
-                            <a class="dropdown-item" href="https://adminkit.io/docs/getting-started/changelog/" target="_blank"><i class="align-middle me-1" data-feather="edit"></i> Changelog</a>
-                        </div>
-                    </li>
-                </ul>
 
                 <div class="navbar-collapse collapse">
                     <ul class="navbar-nav navbar-align">
@@ -357,7 +287,7 @@
                             </a>
                             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end py-0" aria-labelledby="alertsDropdown">
                                 <div class="dropdown-menu-header">
-                                    4 New Notifications
+                                    4 Nuevas notificaciones
                                 </div>
                                 <div class="list-group">
                                     <a href="#" class="list-group-item">
@@ -409,7 +339,7 @@
                                     </a>
                                 </div>
                                 <div class="dropdown-menu-footer">
-                                    <a href="#" class="text-muted">Show all notifications</a>
+                                    <a href="#" class="text-muted">Ver todas las notificaciones</a>
                                 </div>
                             </div>
                         </li>
@@ -422,7 +352,7 @@
                             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end py-0" aria-labelledby="messagesDropdown">
                                 <div class="dropdown-menu-header">
                                     <div class="position-relative">
-                                        4 New Messages
+                                        4 Nuevos mensajes
                                     </div>
                                 </div>
                                 <div class="list-group">
@@ -434,7 +364,7 @@
                                             <div class="col-10 ps-2">
                                                 <div class="text-dark">Vanessa Tucker</div>
                                                 <div class="text-muted small mt-1">Nam pretium turpis et arcu. Duis arcu tortor.</div>
-                                                <div class="text-muted small mt-1">15m ago</div>
+                                                <div class="text-muted small Charles HallPrmt-1">15m ago</div>
                                             </div>
                                         </div>
                                     </a>
@@ -480,29 +410,6 @@
                                 </div>
                             </div>
                         </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-flag dropdown-toggle" href="#" id="languageDropdown" data-bs-toggle="dropdown">
-                                <img src="img/flags/us.png" alt="English" />
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdown">
-                                <a class="dropdown-item" href="#">
-                                    <img src="img/flags/us.png" alt="English" width="20" class="align-middle me-1" />
-                                    <span class="align-middle">English</span>
-                                </a>
-                                <a class="dropdown-item" href="#">
-                                    <img src="img/flags/es.png" alt="Spanish" width="20" class="align-middle me-1" />
-                                    <span class="align-middle">Spanish</span>
-                                </a>
-                                <a class="dropdown-item" href="#">
-                                    <img src="img/flags/ru.png" alt="Russian" width="20" class="align-middle me-1" />
-                                    <span class="align-middle">Russian</span>
-                                </a>
-                                <a class="dropdown-item" href="#">
-                                    <img src="img/flags/de.png" alt="German" width="20" class="align-middle me-1" />
-                                    <span class="align-middle">German</span>
-                                </a>
-                            </div>
-                        </li>
                         <li class="nav-item">
                             <a class="nav-icon js-fullscreen d-none d-lg-block" href="#">
                                 <div class="position-relative">
@@ -512,17 +419,16 @@
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-icon pe-md-0 dropdown-toggle" href="#" data-bs-toggle="dropdown">
-                                <img src="img/avatars/avatar.jpg" class="avatar img-fluid rounded" alt="Charles Hall" />
+                                <img src="img/avatars/avatar.jpg" class="avatar img-fluid rounded" alt="<?= $_SESSION['nombre']; ?>" />
                             </a>
                             <div class="dropdown-menu dropdown-menu-end">
-                                <a class="dropdown-item" href="pages-profile.html"><i class="align-middle me-1" data-feather="user"></i> Profile</a>
-                                <a class="dropdown-item" href="#"><i class="align-middle me-1" data-feather="pie-chart"></i> Analytics</a>
+                                <a class="dropdown-item" href="pages-profile.html"><i class="align-middle me-1" data-feather="user"></i> Perfil</a>
+                                <a class="dropdown-item" href="#"><i class="align-middle me-1" data-feather="pie-chart"></i> Analiticas</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="pages-settings.html"><i class="align-middle me-1" data-feather="settings"></i> Settings &
-                                    Privacy</a>
-                                <a class="dropdown-item" href="#"><i class="align-middle me-1" data-feather="help-circle"></i> Help Center</a>
+                                <a class="dropdown-item" href="pages-settings.html"><i class="align-middle me-1" data-feather="settings"></i> Ajustes</a>
+                                <a class="dropdown-item" href="#"><i class="align-middle me-1" data-feather="help-circle"></i> Soporte Tecnico</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="<?= base_url('logout')?>">Log out</a>
+                                <a class="dropdown-item" href="<?= base_url('logout')?>">Cerrar Sesi&oacute;n</a>
                             </div>
                         </li>
                     </ul>
@@ -534,22 +440,13 @@
                     <div class="row text-muted">
                         <div class="col-6 text-start">
                             <p class="mb-0">
-                                <a href="https://adminkit.io/" target="_blank" class="text-muted"><strong>AdminKit</strong></a> &copy;
+                                <a href="https://www.accesorioseconomicos.com/" target="_blank" class="text-muted"><strong>Accesorios Econ&oacute;micos</strong></a> &copy;
                             </p>
                         </div>
                         <div class="col-6 text-end">
                             <ul class="list-inline">
                                 <li class="list-inline-item">
-                                    <a class="text-muted" href="#">Support</a>
-                                </li>
-                                <li class="list-inline-item">
-                                    <a class="text-muted" href="#">Help Center</a>
-                                </li>
-                                <li class="list-inline-item">
-                                    <a class="text-muted" href="#">Privacy</a>
-                                </li>
-                                <li class="list-inline-item">
-                                    <a class="text-muted" href="#">Terms</a>
+                                    <a class="text-muted" href="#">Soporte Tecnico</a>
                                 </li>
                             </ul>
                         </div>
