@@ -121,7 +121,7 @@ if ($session->getFlashdata('password_tab_active')) {
                                             </select>
                                         </div>
                                         <div class="mb-3 col-md-6">
-                                            <label class="form-label" for="departamento">Municipio</label>
+                                            <label class="form-label" for="municipio">Municipio</label>
                                             <select class="form-control choices-single" id="municipio" name="municipio">
                                                 <option></option>
                                                 <?php if (isset($direccionEnvio)) {
@@ -290,6 +290,80 @@ if ($session->getFlashdata('password_tab_active')) {
         }).then((municipios) => {
             municipio.clearChoices();
             municipio.setValue(municipios);
+        });
+    });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function(e) {
+        FormValidation.formValidation(document.getElementById('deliveryForm'), {
+            locale: 'es_ES',
+            localization: FormValidation.locales.es_ES,
+            fields: {
+                nombre: {
+                    validators: {
+                        notEmpty: {},
+                        stringLength: {
+                            min: 5,
+                            max: 50
+                        },
+                    },
+                },
+                apellido: {
+                    validators: {
+                        notEmpty: {},
+                        stringLength: {
+                            min: 5,
+                            max: 50
+                        },
+                    },
+                },
+                email: {
+                    validators: {
+                        notEmpty: {},
+                        emailAddress: {},
+                    },
+                },
+                direccion: {
+                    validators: {
+                        notEmpty: {},
+                        stringLength: {
+                            max: 120,
+                            min: 8
+                        }
+                    },
+                },
+                direccion_2: {
+                    validators: {
+                        stringLength: {
+                            max: 100,
+                            min: 3
+                        }
+                    },
+                },
+                departamento: {
+                    validators: {
+                        notEmpty: {},
+                    },
+                },
+                municipio: {
+                    validators: {
+                        notEmpty: {},
+                    },
+                },
+            },
+            plugins: {
+                trigger: new FormValidation.plugins.Trigger(),
+                bootstrap5: new FormValidation.plugins.Bootstrap5({
+                    rowSelector: '.mb-3',
+                }),
+                submitButton: new FormValidation.plugins.SubmitButton(),
+                icon: new FormValidation.plugins.Icon({
+                    valid: 'fa fa-check',
+                    invalid: 'fa fa-times',
+                    validating: 'fa fa-refresh',
+                }),
+                defaultSubmit: new FormValidation.plugins.DefaultSubmit()
+            },
         });
     });
 </script>
