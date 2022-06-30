@@ -71,8 +71,10 @@
     <script src="<?= base_url('js/formvalidation/dist/js/plugins/Bootstrap5.js') ?>"></script>
     <script src="<?= base_url('js/formvalidation/dist/js/locales/es_ES.min.js') ?>"></script>
     <script>
+        var resetForm = document.getElementById('resetForm');
+        const submitResetFormButton = resetForm.querySelector('button[type="submit"]');
         document.addEventListener('DOMContentLoaded', function(e) {
-            FormValidation.formValidation(document.getElementById('resetForm'), {
+            FormValidation.formValidation(resetForm, {
                 locale: 'es_ES',
                 localization: FormValidation.locales.es_ES,
                 fields: {
@@ -96,6 +98,11 @@
                     }),
                     defaultSubmit: new FormValidation.plugins.DefaultSubmit()
                 },
+            }).on('core.form.valid', function() {
+                // Disable the submit button
+                submitResetFormButton.setAttribute('disabled', true);
+
+                submitResetFormButton.innerHTML = 'Enviando...';
             });
         });
     </script>

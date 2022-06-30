@@ -40,8 +40,8 @@ $routes->set404Override();
  * Auth Controller
  * --------------------------------------------------------------------
  */
-$routes->get('/', 'Auth::index');
-$routes->get('/login', 'Auth::index');
+$routes->get('/', 'Auth::index', ['filter' => 'noAuthGuard']);
+$routes->get('/login', 'Auth::index', ['filter' => 'noAuthGuard']);
 $routes->get('/reset-password', 'Auth::resetPassword');
 $routes->get('/restore-password/(:any)', 'Auth::restorePassword/$1');
 $routes->get('/logout', 'Auth::logout');

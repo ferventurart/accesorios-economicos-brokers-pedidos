@@ -48,11 +48,11 @@
                                         <?= csrf_field() ?>
                                         <div class="mb-3">
                                             <label class="form-label">Contrase&ntilde;a</label>
-                                            <input class="form-control form-control-lg" type="password" name="password" placeholder="Ingrese su contrase&ntilde;a" />
+                                            <input class="form-control form-control-lg" type="password" name="password" autocomplete placeholder="Ingrese su contrase&ntilde;a" />
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label">Confirme su Contrase&ntilde;a</label>
-                                            <input class="form-control form-control-lg" type="password" name="confirmPassword" placeholder="Confirme su contrase&ntilde;a" />
+                                            <input class="form-control form-control-lg" type="password" name="confirmPassword" autocomplete placeholder="Confirme su contrase&ntilde;a" />
                                         </div>
                                         <div class="text-center mt-3">
                                             <button type="submit" class="btn btn-lg btn-primary">Restablecer contrase&ntilde;a</button>
@@ -75,8 +75,9 @@
     <script src="<?= base_url('js/formvalidation/dist/js/locales/es_ES.min.js') ?>"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function(e) {
-            const form = document.getElementById('restoreForm');
-            const fv = FormValidation.formValidation(form, {
+            const restoreForm = document.getElementById('restoreForm');
+            const submitRestoreButton = restoreForm.querySelector('button[type="submit"]');
+            const fv = FormValidation.formValidation(restoreForm, {
                 locale: 'es_ES',
                 localization: FormValidation.locales.es_ES,
                 fields: {
@@ -96,7 +97,7 @@
                             },
                             identical: {
                                 compare: function() {
-                                    return form.querySelector('[name="password"]').value;
+                                    return restoreForm.querySelector('[name="password"]').value;
                                 },
                             },
                         },
@@ -115,9 +116,14 @@
                     }),
                     defaultSubmit: new FormValidation.plugins.DefaultSubmit()
                 },
+            }).on('core.form.valid', function() {
+                // Disable the submit button
+                submitRestoreButton.setAttribute('disabled', true);
+
+                submitRestoreButton.innerHTML = 'Guardando...';
             });
             // Revalidate the confirmation password when changing the password
-            form.querySelector('[name="password"]').addEventListener('input', function() {
+            restoreForm.querySelector('[name="password"]').addEventListener('input', function() {
                 fv.revalidateField('confirmPassword');
             });
         });

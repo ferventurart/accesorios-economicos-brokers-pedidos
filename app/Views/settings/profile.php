@@ -179,6 +179,7 @@ if ($session->getFlashdata('password_tab_active')) {
 <script>
     document.addEventListener('DOMContentLoaded', function(e) {
         const changePasswordForm = document.getElementById('changePasswordForm');
+        const submitChangePasswordButton = changePasswordForm.querySelector('button[type="submit"]');
         const fvChangePasswordForm = FormValidation.formValidation(changePasswordForm, {
             locale: 'es_ES',
             localization: FormValidation.locales.es_ES,
@@ -226,53 +227,66 @@ if ($session->getFlashdata('password_tab_active')) {
                 }),
                 defaultSubmit: new FormValidation.plugins.DefaultSubmit()
             },
+        }).on('core.form.valid', function() {
+            // Disable the submit button
+            submitChangePasswordButton.setAttribute('disabled', true);
+
+            submitChangePasswordButton.innerHTML = 'Guardando...';
         });
         // Revalidate the confirmation password when changing the password
         changePasswordForm.querySelector('[name="password"]').addEventListener('input', function() {
             fvChangePasswordForm.revalidateField('confirmPassword');
         });
+    });
+</script>
+<script>
+    const updateForm = document.getElementById('updateForm');
+    const submitUpdateFormButton = updateForm.querySelector('button[type="submit"]');
+    FormValidation.formValidation(updateForm, {
+        locale: 'es_ES',
+        localization: FormValidation.locales.es_ES,
+        fields: {
+            email: {
+                validators: {
+                    notEmpty: {},
+                    emailAddress: {},
+                },
+            },
+            nombre: {
+                validators: {
+                    notEmpty: {},
+                    stringLength: {
+                        min: 8
+                    },
+                },
+            },
+            telefono: {
+                validators: {
+                    notEmpty: {},
+                    stringLength: {
+                        max: 9
+                    }
+                },
+            },
+        },
+        plugins: {
+            trigger: new FormValidation.plugins.Trigger(),
+            bootstrap5: new FormValidation.plugins.Bootstrap5({
+                rowSelector: '.mb-3',
+            }),
+            submitButton: new FormValidation.plugins.SubmitButton(),
+            icon: new FormValidation.plugins.Icon({
+                valid: 'fa fa-check',
+                invalid: 'fa fa-times',
+                validating: 'fa fa-refresh',
+            }),
+            defaultSubmit: new FormValidation.plugins.DefaultSubmit()
+        },
+    }).on('core.form.valid', function() {
+        // Disable the submit button
+        submitUpdateFormButton.setAttribute('disabled', true);
 
-        FormValidation.formValidation(document.getElementById('updateForm'), {
-            locale: 'es_ES',
-            localization: FormValidation.locales.es_ES,
-            fields: {
-                email: {
-                    validators: {
-                        notEmpty: {},
-                        emailAddress: {},
-                    },
-                },
-                nombre: {
-                    validators: {
-                        notEmpty: {},
-                        stringLength: {
-                            min: 8
-                        },
-                    },
-                },
-                telefono: {
-                    validators: {
-                        notEmpty: {},
-                        stringLength: {
-                            max: 9
-                        }
-                    },
-                },
-            },
-            plugins: {
-                trigger: new FormValidation.plugins.Trigger(),
-                bootstrap5: new FormValidation.plugins.Bootstrap5({
-                    rowSelector: '.mb-3',
-                }),
-                submitButton: new FormValidation.plugins.SubmitButton(),
-                icon: new FormValidation.plugins.Icon({
-                    valid: 'fa fa-check',
-                    invalid: 'fa fa-times',
-                    validating: 'fa fa-refresh',
-                }),
-                defaultSubmit: new FormValidation.plugins.DefaultSubmit()
-            },
-        });
+        submitUpdateFormButton.innerHTML = 'Guardando...';
     });
 </script>
 <script>
@@ -294,6 +308,8 @@ if ($session->getFlashdata('password_tab_active')) {
     });
 </script>
 <script>
+    const deliveryForm = document.getElementById('deliveryForm');
+    const submitDeliveryFormButton = deliveryForm.querySelector('button[type="submit"]');
     document.addEventListener('DOMContentLoaded', function(e) {
         FormValidation.formValidation(document.getElementById('deliveryForm'), {
             locale: 'es_ES',
@@ -364,6 +380,11 @@ if ($session->getFlashdata('password_tab_active')) {
                 }),
                 defaultSubmit: new FormValidation.plugins.DefaultSubmit()
             },
+        }).on('core.form.valid', function() {
+            // Disable the submit button
+            submitDeliveryButton.setAttribute('disabled', true);
+
+            submitDeliveryButton.innerHTML = 'Guardando...';
         });
     });
 </script>

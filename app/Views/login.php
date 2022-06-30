@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -17,6 +18,7 @@
     <link rel="stylesheet" href="<?= base_url('js/formvalidation/dist/css/formValidation.min.css') ?>" />
     <link href="<?= base_url('css/light.css') ?>" rel="stylesheet">
 </head>
+
 <body data-theme="default" data-layout="fluid" data-sidebar-position="left" data-sidebar-layout="default">
     <main class="d-flex w-100 h-100">
         <div class="container d-flex flex-column">
@@ -44,7 +46,7 @@
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label">Contrase&ntilde;a</label>
-                                            <input class="form-control form-control-lg" type="password" name="password" placeholder="Ingrese su contrase&ntilde;a" />
+                                            <input class="form-control form-control-lg" type="password" name="password" autocomplete="" placeholder="Ingrese su contrase&ntilde;a" />
                                             <small>
                                                 <a href="<?= base_url('reset-password') ?>">¿Ha olvidado su contrase&ntilde;a?</a>
                                             </small>
@@ -77,7 +79,9 @@
     <script src="<?= base_url('js/formvalidation/dist/js/locales/es_ES.min.js') ?>"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function(e) {
-            FormValidation.formValidation(document.getElementById('loginForm'), {
+            var loginForm = document.getElementById('loginForm');
+            const submitLoginFormButton = loginForm.querySelector('button[type="submit"]');
+            FormValidation.formValidation(loginForm, {
                 locale: 'es_ES',
                 localization: FormValidation.locales.es_ES,
                 fields: {
@@ -109,6 +113,11 @@
                     }),
                     defaultSubmit: new FormValidation.plugins.DefaultSubmit()
                 },
+            }).on('core.form.valid', function() {
+                // Disable the submit button
+                submitLoginFormButton.setAttribute('disabled', true);
+
+                submitLoginFormButton.innerHTML = 'Ingresando...';
             });
         });
     </script>

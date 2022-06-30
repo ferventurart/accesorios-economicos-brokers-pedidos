@@ -71,13 +71,13 @@ class Auth extends BaseController
             $usuario = $this->model->where('email', $email)->first();
             if (!isset($usuario)) {
                 configure_flash_alert('warning', 'Correo no fue enviado.', 'El correo electr&oacute;nico no pertenece a ningun usuario.');
-                return redirect()->to('/');
+                return auth_redirect();
             }
 
             $tokenVigente = $this->verificacionCorreoModel->where(['usuario_id' => $usuario['id'], 'tipo' => 2, 'expirado' => 0])->first();
             if (isset($tokenVigente) && date($tokenVigente['expira']) > date('Y-m-d H:i:s') && (int) $tokenVigente['expirado'] === 0) {
                 configure_flash_alert('warning', 'Tienes un enlace vigente.', 'Revisa tu bandeja de entrada, previamente se te ha enviado el correo de restauraci&oacute;n.');
-                return redirect()->to('/');
+                return auth_redirect();
             }
 
             $token = base64_encode($usuario['email']) . uniqid();
@@ -95,8 +95,9 @@ class Auth extends BaseController
             $template = draw_reset_password_email_helper(base_url() . '/restore-password/' . $token);
             $this->email->setMessage($template);
             if ($this->email->send()) {
+                $this->session->remove(['isLoggedIn', 'nombre', 'email', 'fotografia_url']);
                 configure_flash_alert('success', 'Correo enviado exitosamente.', 'Correo electr&oacute;nico de restablecimiento de contrase&ntilde;a enviado.');
-                return redirect()->to('/');
+                return auth_redirect();
             }
         } else {
             configure_flash_alert('danger', 'Error en el sistema.', 'Ocurrio un error generando el correo electr&oacute;nico de restauracion.');
@@ -109,12 +110,12 @@ class Auth extends BaseController
         $verificacion = $this->verificacionCorreoModel->where('token', $token)->first();
         if (!isset($verificacion)) {
             configure_flash_alert('danger', 'Enlace no valido.', 'Ocurrio un error al validar el enlace.');
-            return redirect()->to('/');
+            return auth_redirect();
         }
         $usuario = $this->model->find($verificacion['usuario_id']);
         if (!isset($usuario)) {
             configure_flash_alert('warning', 'Enlace no valido.', 'El correo electr&oacute;nico no pertenece a ningun usuario.');
-            return redirect()->to('/');
+            return auth_redirect();
         }
 
         return view('restore_password', ['token' => $verificacion['token'], 'email' => $usuario['email']]);
@@ -125,12 +126,12 @@ class Auth extends BaseController
         $verificacion = $this->verificacionCorreoModel->where('token', $token)->first();
         if (!isset($verificacion)) {
             configure_flash_alert('danger', 'Enlace no valido.', 'Ocurrio un error al validar el enlace.');
-            return redirect()->to('/');
+            return auth_redirect();
         }
         $usuario = $this->model->find($verificacion['usuario_id']);
         if (!isset($usuario)) {
             configure_flash_alert('warning', 'Enlace no valido.', 'El correo electr&oacute;nico no pertenece a ningun usuario.');
-            return redirect()->to('/');
+            return auth_redirect();
         }
 
         $form = $this->request->getPost();
@@ -143,11 +144,12 @@ class Auth extends BaseController
         $verificacion['expirado'] = 1;
         if ($this->model->save($usuario) && $this->verificacionCorreoModel->save($verificacion)) {
             configure_flash_alert('success', 'Contrase&ntilde;a restaurada.', 'Su contrase&ntilde;a fue restaurada exitosamente.');
-            return redirect()->to('/');
+            $this->session->remove(['isLoggedIn', 'nombre', 'email', 'fotografia_url']);
+            return auth_redirect();
         }
 
         configure_flash_alert('warning', 'Ocurrio un error.', 'No se pudo restaurar su contrase&ntilde;a.');
-        return redirect()->to('/');
+        return auth_redirect();
     }
 
     public function logout()
