@@ -35,7 +35,7 @@ abstract class BaseController extends Controller
      *
      * @var array
      */
-    protected $helpers = ['flash_alert', 'reset_password_email'];
+    protected $helpers = ['flash_alert', 'reset_password_email', 'address'];
 
     /**
      * Constructor.

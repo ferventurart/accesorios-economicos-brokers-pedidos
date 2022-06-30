@@ -45,10 +45,9 @@
                                 <?= $_SESSION['nombre']; ?>
                             </a>
                             <div class="dropdown-menu dropdown-menu-start">
-                                <a class="dropdown-item" href="pages-profile.html"><i class="align-middle me-1" data-feather="user"></i> Perfil</a>
+                                <a class="dropdown-item" href="<?= base_url('/mi-perfil') ?>"><i class="align-middle me-1" data-feather="user"></i> Perfil</a>
                                 <a class="dropdown-item" href="#"><i class="align-middle me-1" data-feather="pie-chart"></i> Analiticas</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="pages-settings.html"><i class="align-middle me-1" data-feather="settings"></i> Ajustes</a>
                                 <a class="dropdown-item" href="#"><i class="align-middle me-1" data-feather="help-circle"></i> Soporte Tecnico</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="<?= base_url('logout')?>">Cerrar Sesi&oacute;n</a>
@@ -422,10 +421,9 @@
                                 <img src="img/avatars/avatar.jpg" class="avatar img-fluid rounded" alt="<?= $_SESSION['nombre']; ?>" />
                             </a>
                             <div class="dropdown-menu dropdown-menu-end">
-                                <a class="dropdown-item" href="pages-profile.html"><i class="align-middle me-1" data-feather="user"></i> Perfil</a>
+                                <a class="dropdown-item" href=<?= base_url('/mi-perfil') ?>><i class="align-middle me-1" data-feather="user"></i> Perfil</a>
                                 <a class="dropdown-item" href="#"><i class="align-middle me-1" data-feather="pie-chart"></i> Analiticas</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="pages-settings.html"><i class="align-middle me-1" data-feather="settings"></i> Ajustes</a>
                                 <a class="dropdown-item" href="#"><i class="align-middle me-1" data-feather="help-circle"></i> Soporte Tecnico</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="<?= base_url('logout')?>">Cerrar Sesi&oacute;n</a>
@@ -457,7 +455,6 @@
     </div>
 
     <script src="js/app.js"></script>
-
     <script>
         document.addEventListener("DOMContentLoaded", function(event) {
             setTimeout(function() {
@@ -479,6 +476,7 @@
             }, 15000);
         });
     </script>
+    <?= $this->renderSection('scripts'); ?>
 </body>
 
 </html>
