@@ -385,9 +385,9 @@ if ($session->getFlashdata('password_tab_active')) {
             },
         }).on('core.form.valid', function() {
             // Disable the submit button
-            submitDeliveryButton.setAttribute('disabled', true);
+            submitDeliveryFormButton.setAttribute('disabled', true);
 
-            submitDeliveryButton.innerHTML = 'Guardando...';
+            submitDeliveryFormButton.innerHTML = 'Guardando...';
         });
     });
 </script>
