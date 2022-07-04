@@ -19,7 +19,7 @@
     <link href="<?= base_url('css/light.css') ?>" rel="stylesheet">
 </head>
 
-<body data-theme="default" data-layout="fluid" data-sidebar-position="left" data-sidebar-layout="default">
+<body data-theme="default" data-layout="default" data-sidebar-position="left" data-sidebar-layout="default">
     <div class="wrapper">
         <nav id="sidebar" class="sidebar js-sidebar">
             <div class="sidebar-content js-simplebar">
@@ -276,7 +276,7 @@
 
                 <form class="d-none d-sm-inline-block">
                     <div class="input-group input-group-navbar">
-                        <input type="text" class="form-control" placeholder="Buscar por numero de pedido" aria-label="Buscar">
+                        <input type="text" class="form-control" placeholder="Buscar numero de pedido" aria-label="Buscar">
                         <button class="btn" type="button">
                             <i class="align-middle" data-feather="search"></i>
                         </button>
@@ -464,25 +464,12 @@
 
     <script src="js/app.js"></script>
     <script>
-        document.addEventListener("DOMContentLoaded", function(event) {
-            setTimeout(function() {
-                if (localStorage.getItem('popState') !== 'shown') {
-                    window.notyf.open({
-                        type: "success",
-                        message: "Get access to all 500+ components and 45+ pages with AdminKit PRO. <u><a class=\"text-white\" href=\"https://adminkit.io/pricing\" target=\"_blank\">More info</a></u> 🚀",
-                        duration: 10000,
-                        ripple: true,
-                        dismissible: false,
-                        position: {
-                            x: "left",
-                            y: "bottom"
-                        }
-                    });
-
-                    localStorage.setItem('popState', 'shown');
-                }
-            }, 15000);
-        });
+        function handleErrors(response) {
+            if (!response.ok) {
+                throw Error(response.statusText);
+            }
+            return response;
+        }
     </script>
     <?= $this->renderSection('scripts'); ?>
 </body>
