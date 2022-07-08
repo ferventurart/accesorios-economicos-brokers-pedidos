@@ -44,6 +44,7 @@ $routes->get('/', 'Auth::index', ['filter' => 'noAuthGuard']);
 $routes->get('/login', 'Auth::index', ['filter' => 'noAuthGuard']);
 $routes->get('/reset-password', 'Auth::resetPassword');
 $routes->get('/restore-password/(:any)', 'Auth::restorePassword/$1');
+$routes->get('/activate-user/(:any)', 'Auth::activateUser/$1');
 $routes->get('/logout', 'Auth::logout');
 $routes->post('/login', 'Auth::signIn');
 $routes->post('/reset-password', 'Auth::sendResetLink');
@@ -72,8 +73,20 @@ $routes->get('/inicio', 'Home::index', ['filter' => 'authGuard']);
 $routes->get('/roles', 'Rol::index', ['filter' => 'authGuard']);
 $routes->get('/get-roles', 'Rol::getRoles', ['filter' => 'authGuard']);
 $routes->get('/get-rol/(:any)', 'Rol::getRol/$1', ['filter' => 'authGuard']);
+$routes->get('/roles/getAll', 'Rol::getAllRoles', ['filter' => 'authGuard']);
 $routes->post('/delete-rol', 'Rol::deleteRol', ['filter' => 'authGuard']);
 $routes->post('/roles', 'Rol::saveRoles', ['filter' => 'authGuard']);
+/*
+/*
+ * --------------------------------------------------------------------
+ * Usuario Controller
+ * --------------------------------------------------------------------
+ */
+$routes->get('/usuarios', 'Usuario::index', ['filter' => 'authGuard']);
+$routes->get('/get-usuarios', 'Usuario::getUsuarios', ['filter' => 'authGuard']);
+$routes->get('/get-usuario/(:any)', 'Usuario::getUsuario/$1', ['filter' => 'authGuard']);
+$routes->post('/delete-usuario', 'Usuario::deleteUsuario', ['filter' => 'authGuard']);
+$routes->post('/usuarios', 'Usuario::saveUsuarios', ['filter' => 'authGuard']);
 /*
  * --------------------------------------------------------------------
  * Additional Routing

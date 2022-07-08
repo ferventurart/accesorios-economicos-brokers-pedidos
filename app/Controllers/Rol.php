@@ -9,7 +9,6 @@ use CodeIgniter\API\ResponseTrait;
 class Rol extends BaseController
 {
     use ResponseTrait;
-    protected RolModel $model;
 
     function __construct()
     {
@@ -33,6 +32,17 @@ class Rol extends BaseController
             }, 'last')
 
             ->toJson();
+    }
+
+    public function getAllRoles()
+    {
+        if ($this->request->isAJAX()) {
+            $roles = $this->rolModel->findAll();
+            if (!isset($roles)) {
+                return $this->failNotFound('No se encontro el registro con el identificador ' . $id);
+            }
+            return $this->respond($roles, 200);
+        }
     }
 
     public function saveRoles()

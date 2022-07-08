@@ -9,8 +9,7 @@ use CodeIgniter\API\ResponseTrait;
 class Setting extends BaseController
 {
     use ResponseTrait;
-    protected UsuarioModel $model;
-
+    
     function __construct()
     {
         $this->usuarioModel = new UsuarioModel();

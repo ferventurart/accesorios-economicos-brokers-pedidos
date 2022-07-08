@@ -2,18 +2,17 @@
 
 namespace App\Controllers;
 
+use App\Models\RolModel;
 use App\Models\UsuarioModel;
 use App\Models\VerificacionCorreoModel;
 
 class Auth extends BaseController
 {
-    protected UsuarioModel $model;
-    protected VerificacionCorreoModel $verificacionCorreoModel;
-
     function __construct()
     {
         $this->model = new UsuarioModel();
         $this->verificacionCorreoModel = new VerificacionCorreoModel();
+        $this->rolModel = new RolModel();
     }
 
     public function index()
@@ -47,10 +46,25 @@ class Auth extends BaseController
                 return redirect()->to('/');
             }
 
+            if ((int) $usuario['requiere_cambio_password'] === 1) {
+                $token = base64_encode($usuario['email']) . uniqid();
+                $this->verificacionCorreoModel->save([
+                    'usuario_id' => $usuario['id'],
+                    'token' => $token,
+                    'tipo' => EMAIL_RESET_PASSWORD,
+                    'expira' => date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s') . ' + 1 hours')),
+                    'expirado' => 0
+                ]);
+                return redirect()->to('/restore-password/' . $token);
+            }
+
+            $rol = $this->rolModel->find($usuario['rol_id']);
+
             $this->session->set([
                 'nombre' => $usuario['nombre'],
                 'email'  => $usuario['email'],
                 'fotografia_url' => $usuario['fotografia_url'],
+                'rol' => $rol['nombre'],
                 'isLoggedIn' => true
             ]);
 
@@ -74,7 +88,7 @@ class Auth extends BaseController
                 return auth_redirect();
             }
 
-            $tokenVigente = $this->verificacionCorreoModel->where(['usuario_id' => $usuario['id'], 'tipo' => 2, 'expirado' => 0])->first();
+            $tokenVigente = $this->verificacionCorreoModel->where(['usuario_id' => $usuario['id'], 'tipo' => EMAIL_RESET_PASSWORD, 'expirado' => 0])->first();
             if (isset($tokenVigente) && date($tokenVigente['expira']) > date('Y-m-d H:i:s') && (int) $tokenVigente['expirado'] === 0) {
                 configure_flash_alert('warning', 'Tienes un enlace vigente.', 'Revisa tu bandeja de entrada, previamente se te ha enviado el correo de restauraci&oacute;n.');
                 return auth_redirect();
@@ -84,17 +98,12 @@ class Auth extends BaseController
             $this->verificacionCorreoModel->save([
                 'usuario_id' => $usuario['id'],
                 'token' => $token,
-                'tipo' => 2,
+                'tipo' => EMAIL_RESET_PASSWORD,
                 'expira' => date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s') . ' + 1 hours')),
                 'expirado' => 0
             ]);
 
-            $this->email->setFrom('info@accesorioseconomicos.com', 'Accesorios Económicos - Sistema de Pedidos');
-            $this->email->setTo($email);
-            $this->email->setSubject('Restablecimiento de contraseña');
-            $template = draw_reset_password_email_helper(base_url() . '/restore-password/' . $token);
-            $this->email->setMessage($template);
-            if ($this->email->send()) {
+            if (send_email_helper($email, 'Restablecimiento de contraseña', draw_reset_password_email_helper(base_url() . '/restore-password/' . $token))) {
                 $this->session->remove(['isLoggedIn', 'nombre', 'email', 'fotografia_url']);
                 configure_flash_alert('success', 'Correo enviado exitosamente.', 'Correo electr&oacute;nico de restablecimiento de contrase&ntilde;a enviado.');
                 return auth_redirect();
@@ -123,7 +132,7 @@ class Auth extends BaseController
 
     public function saveRestoredPassword($token = null)
     {
-        $verificacion = $this->verificacionCorreoModel->where('token', $token)->first();
+        $verificacion = $this->verificacionCorreoModel->where(['token' => $token, 'tipo' => EMAIL_RESET_PASSWORD])->first();
         if (!isset($verificacion)) {
             configure_flash_alert('danger', 'Enlace no valido.', 'Ocurrio un error al validar el enlace.');
             return auth_redirect();
@@ -142,6 +151,10 @@ class Auth extends BaseController
 
         $usuario['password'] = base64_encode($this->encrypter->encrypt($form['password']));
         $verificacion['expirado'] = 1;
+        
+        if ($usuario['requiere_cambio_password'] === "1") {
+            $usuario['requiere_cambio_password'] = 0;
+        }
         if ($this->model->save($usuario) && $this->verificacionCorreoModel->save($verificacion)) {
             configure_flash_alert('success', 'Contrase&ntilde;a restaurada.', 'Su contrase&ntilde;a fue restaurada exitosamente.');
             $this->session->remove(['isLoggedIn', 'nombre', 'email', 'fotografia_url']);
@@ -149,6 +162,31 @@ class Auth extends BaseController
         }
 
         configure_flash_alert('warning', 'Ocurrio un error.', 'No se pudo restaurar su contrase&ntilde;a.');
+        return auth_redirect();
+    }
+
+    public function activateUser($token = null)
+    {
+        $verificacion = $this->verificacionCorreoModel->where(['token' => $token, 'tipo' => EMAIL_ACTIVATE_USER])->first();
+        if (!isset($verificacion)) {
+            configure_flash_alert('danger', 'Enlace no valido.', 'Ocurrio un error al validar el enlace.');
+            return auth_redirect();
+        }
+        $usuario = $this->model->find($verificacion['usuario_id']);
+        if (!isset($usuario)) {
+            configure_flash_alert('warning', 'Enlace no valido.', 'El correo electr&oacute;nico no pertenece a ningun usuario.');
+            return auth_redirect();
+        }
+
+        $usuario['activo'] = true;
+        $usuario['email_confirmado'] = true;
+        $verificacion['expirado'] = 1;
+        if ($this->model->save($usuario) && $this->verificacionCorreoModel->save($verificacion)) {
+            configure_flash_alert('info', 'Usuario Activado.', 'El usuario fue activado exitosamente.');
+            return auth_redirect();
+        }
+
+        configure_flash_alert('warning', 'Ocurrio un error.', 'No se pudo activar el usuario.');
         return auth_redirect();
     }
 

@@ -17,6 +17,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="<?= base_url('js/formvalidation/dist/css/formValidation.min.css') ?>" />
     <link href="<?= base_url('css/light.css') ?>" rel="stylesheet">
+    <?= $this->renderSection('styles'); ?>
 </head>
 
 <body data-theme="default" data-layout="default" data-sidebar-position="left" data-sidebar-layout="default">
@@ -53,18 +54,23 @@
                                 <a class="dropdown-item" href="<?= base_url('logout') ?>">Cerrar Sesi&oacute;n</a>
                             </div>
 
-                            <div class="sidebar-user-subtitle">Designer</div>
+                            <div class="sidebar-user-subtitle"><?= $_SESSION['rol']; ?></div>
                         </div>
                     </div>
                 </div>
 
                 <ul class="sidebar-nav">
                     <li class="sidebar-header">
-                        Ajustes
+                        Accesos del Sistema
                     </li>
                     <li class="sidebar-item">
                         <a class="sidebar-link" href="<?= base_url('roles') ?>">
-                            <i class="align-middle" data-feather="user"></i> <span class="align-middle">Roles de Usuario</span>
+                            <i class="align-middle" data-feather="user-check"></i> <span class="align-middle">Roles de Usuario</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="<?= base_url('usuarios') ?>">
+                            <i class="align-middle" data-feather="users"></i> <span class="align-middle">Usuario del Sistema</span>
                         </a>
                     </li>
                     <li class="sidebar-header">

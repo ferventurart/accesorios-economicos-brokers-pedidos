@@ -14,7 +14,7 @@ class UsuarioModel extends Model
     protected $returnType     = 'array';
     protected $useSoftDeletes = false;
 
-    protected $allowedFields = ['nombre', 'email', 'password', 'rol_id', 'activo', 'email_confirmado', 'telefono', 'fotografia_url'];
+    protected $allowedFields = ['nombre', 'email', 'password', 'rol_id', 'activo', 'email_confirmado', 'telefono', 'fotografia_url', 'requiere_cambio_password', 'mfa_habilitado'];
     protected $useTimestamps  = false;
     protected $skipValidation = false;
 }

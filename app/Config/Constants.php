@@ -92,3 +92,14 @@ define('EVENT_PRIORITY_NORMAL', 100);
  * @deprecated Use \CodeIgniter\Events\Events::PRIORITY_HIGH instead.
  */
 define('EVENT_PRIORITY_HIGH', 10);
+/*
+ |--------------------------------------------------------------------------
+ | App Constants
+ |--------------------------------------------------------------------------
+ |
+ | Use to indicate some default values of the application
+ */
+define('EMAIL_ACTIVATE_USER', 1);
+define('EMAIL_RESET_PASSWORD', 2);
+define('FROM_EMAIL', 'info@accesorioseconomicos.com');
+define('FROM_EMAIL_NAME', 'Accesorios Económicos - Sistema de Pedidos');

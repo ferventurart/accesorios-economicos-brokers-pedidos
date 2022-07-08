@@ -293,8 +293,14 @@ if ($session->getFlashdata('password_tab_active')) {
     });
 </script>
 <script>
-    var municipio = new Choices(document.getElementById('municipio'));
-    var departamento = new Choices(document.getElementById('departamento'));
+    var municipio = new Choices(document.getElementById('municipio'), {
+        itemSelectText: 'Click para seleccionar',
+        noResultsText: 'No se encontraron resultados',
+    });
+    var departamento = new Choices(document.getElementById('departamento'), {
+        itemSelectText: 'Click para seleccionar',
+        noResultsText: 'No se encontraron resultados',
+    });
     departamento.passedElement.element.addEventListener('change', function(event) {
         fetch(`<?= base_url('municipios') ?>/${event.detail.value}`, {
             method: "get",

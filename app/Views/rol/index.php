@@ -153,7 +153,7 @@
 
     const borrar = (id, nombre) => {
         document.getElementById('deleteId').value = id;
-        document.getElementById('deleteMessage').innerHTML = `¿Esta seguro de eliminar <strong>${nombre}</strong>?`;
+        document.getElementById('deleteMessage').innerHTML = `¿Esta seguro de eliminar el registro: <strong>${nombre}</strong>?`;
     }
 </script>
 <script>
