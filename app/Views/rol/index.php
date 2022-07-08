@@ -20,7 +20,7 @@
                             </div>
                         </div>
                         <div class="table-responsive" id="mainRow">
-                            <table id="table" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                            <table id="table" class="table table-striped" style="width:100%">
                                 <thead>
                                     <tr>
                                         <th>Id</th>
@@ -109,58 +109,17 @@
             ajax: "<?= base_url('get-roles') ?>",
             columnDefs: [{
                 targets: -1,
-                orderable: false
+                orderable: false,
+                className: 'text-center'
             }, ]
         });
     });
 </script>
 <script>
-    var modalDataForm = new bootstrap.Modal(document.getElementById('modalDataForm'), {});
-    document.getElementById('modalDataForm').addEventListener('hide.bs.modal', function(event) {
-        dataForm.reset();
-    });
-    const obtener = (id) => {
-        document.getElementById('mainRow').style.display = "none";
-        document.getElementById('loader').style.display = "block";
-        fetch(`<?= base_url('get-rol') ?>/${id}`, {
-            method: "get",
-            headers: {
-                "Content-Type": "application/json",
-                "X-Requested-With": "XMLHttpRequest"
-            }
-        }).then(response => {
-            return response.json()
-        }).then((rol) => {
-            dataForm.reset();
-            document.getElementById('id').value = rol.id;
-            document.getElementById('nombre').value = rol.nombre;
-            document.getElementById('descripcion').value = rol.descripcion;
-            modalDataForm.show();
-            document.getElementById('mainRow').style.display = "block";
-            document.getElementById('loader').style.display = "none";
-        });
-    }
-
-    var deleteForm = document.getElementById('deleteForm');
-    dataForm.onreset = function() {
-        document.getElementById('deleteId').value = "";
-    };
-
-    var modalDeleteForm = new bootstrap.Modal(document.getElementById('modalDeleteForm'), {});
-    document.getElementById('modalDeleteForm').addEventListener('hide.bs.modal', function(event) {
-        deleteForm.reset();
-    });
-
-    const borrar = (id, nombre) => {
-        document.getElementById('deleteId').value = id;
-        document.getElementById('deleteMessage').innerHTML = `¿Esta seguro de eliminar el registro: <strong>${nombre}</strong>?`;
-    }
-</script>
-<script>
     document.addEventListener('DOMContentLoaded', function(e) {
         var dataForm = document.getElementById('dataForm');
         const submitDataFormButton = document.getElementById('btnSave');
-        FormValidation.formValidation(dataForm, {
+        const fv = FormValidation.formValidation(dataForm, {
             locale: 'es_ES',
             localization: FormValidation.locales.es_ES,
             fields: {
@@ -204,7 +163,51 @@
         });
         dataForm.onreset = function() {
             document.getElementById('id').value = "";
+            fv.resetForm();
         };
     });
+</script>
+<script>
+    var modalDataForm = new bootstrap.Modal(document.getElementById('modalDataForm'), {});
+    document.getElementById('modalDataForm').addEventListener('hide.bs.modal', function(event) {
+        dataForm.reset();
+    });
+    const obtener = (id) => {
+        document.getElementById('mainRow').style.display = "none";
+        document.getElementById('loader').style.display = "block";
+        fetch(`<?= base_url('get-rol') ?>/${id}`, {
+            method: "get",
+            headers: {
+                "Content-Type": "application/json",
+                "X-Requested-With": "XMLHttpRequest"
+            }
+        }).then(response => {
+            return response.json()
+        }).then((rol) => {
+            dataForm.reset();
+            document.getElementById('id').value = rol.id;
+            document.getElementById('nombre').value = rol.nombre;
+            document.getElementById('descripcion').value = rol.descripcion;
+            modalDataForm.show();
+            document.getElementById('mainRow').style.display = "block";
+            document.getElementById('loader').style.display = "none";
+        });
+    }
+</script>
+<script>
+    var deleteForm = document.getElementById('deleteForm');
+    dataForm.onreset = function() {
+        document.getElementById('deleteId').value = "";
+    };
+
+    var modalDeleteForm = new bootstrap.Modal(document.getElementById('modalDeleteForm'), {});
+    document.getElementById('modalDeleteForm').addEventListener('hide.bs.modal', function(event) {
+        deleteForm.reset();
+    });
+
+    const borrar = (id, nombre) => {
+        document.getElementById('deleteId').value = id;
+        document.getElementById('deleteMessage').innerHTML = `¿Esta seguro de eliminar el registro: <strong>${nombre}</strong>?`;
+    }
 </script>
 <?= $this->endSection() ?>

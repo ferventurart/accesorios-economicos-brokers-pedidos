@@ -25,12 +25,10 @@ class Rol extends BaseController
         $builder = $this->rolModel->select('id, nombre, descripcion');
         return DataTable::of($builder)
             ->add('action', function ($row) {
-                return '<button type="button" class="btn btn-primary btn-sm"
-                onclick="obtener(\'' . $row->id . '\')"><i class="fas fa-edit"></i>&nbsp;Editar</button>&nbsp;
-                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#modalDeleteForm"
-                onclick="borrar(\'' . $row->id . '\', \'' . $row->nombre . '\')"><i class="fa-solid fa-trash-can"></i></i>&nbsp;Borrar</button>';
+                return '<button type="button" class="btn btn-primary btn-sm" onclick="obtener(\'' . $row->id . '\')"><i class="fas fa-edit"></i></button>
+            <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#modalDeleteForm"
+            onclick="borrar(\'' . $row->id . '\', \'' . $row->nombre . '\')"><i class="fa-solid fa-trash-can"></i></i></button>';
             }, 'last')
-
             ->toJson();
     }
 
