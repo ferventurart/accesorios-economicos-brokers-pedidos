@@ -88,6 +88,18 @@ $routes->get('/get-usuario/(:any)', 'Usuario::getUsuario/$1', ['filter' => 'auth
 $routes->post('/delete-usuario', 'Usuario::deleteUsuario', ['filter' => 'authGuard']);
 $routes->post('/usuarios', 'Usuario::saveUsuarios', ['filter' => 'authGuard']);
 /*
+/*
+ * --------------------------------------------------------------------
+ * Categoria Producto Controller
+ * --------------------------------------------------------------------
+ */
+$routes->get('/categoriasProducto', 'CategoriaProducto::index', ['filter' => 'authGuard']);
+$routes->get('/get-categoriasProducto', 'CategoriaProducto::getCategoriasProducto', ['filter' => 'authGuard']);
+$routes->get('/get-categoriaProducto/(:any)', 'CategoriaProducto::getCategoriaProducto/$1', ['filter' => 'authGuard']);
+$routes->post('/delete-categoriaProducto', 'CategoriaProducto::deleteCategoriaProducto', ['filter' => 'authGuard']);
+$routes->post('/categoriasProducto', 'CategoriaProducto::saveCategoriasProducto', ['filter' => 'authGuard']);
+
+/*
  * --------------------------------------------------------------------
  * Additional Routing
  * --------------------------------------------------------------------

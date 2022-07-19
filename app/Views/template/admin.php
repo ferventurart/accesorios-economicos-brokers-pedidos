@@ -63,8 +63,8 @@
                     <li class="sidebar-header">
                         Inventario de Productos
                     </li>
-                    <li class="sidebar-item sidebar-categorias">
-                        <a class="sidebar-link" href="<?= base_url('categorias') ?>">
+                    <li class="sidebar-item sidebar-categorias-producto">
+                        <a class="sidebar-link" href="<?= base_url('categoriasProducto') ?>">
                             <i class="align-middle" data-feather="tag"></i> <span class="align-middle">Categorias de Producto</span>
                         </a>
                     </li>
