@@ -160,6 +160,7 @@
 <script src="<?= base_url('js/datatables.js') ?>"></script>
 <script>
     $(document).ready(function() {
+        $('.sidebar-usuarios').addClass('active');
         new TomSelect("#rolSearch", {
             allowEmptyOption: false,
             create: false,

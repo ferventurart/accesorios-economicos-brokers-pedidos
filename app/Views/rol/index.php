@@ -99,6 +99,7 @@
 <script src="<?= base_url('js/datatables.js') ?>"></script>
 <script>
     $(document).ready(function() {
+        $('.sidebar-roles').addClass('active');
         $('#table').DataTable({
             language: {
                 url: "https://cdn.datatables.net/plug-ins/1.12.1/i18n/es-ES.json"

@@ -1,4 +1,7 @@
 <?= $this->extend('template/admin') ?>
+<?= $this->section('styles') ?>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tom-select@2.1.0/dist/css/tom-select.bootstrap5.min.css">
+<?= $this->endSection() ?>
 <?= $this->section('content') ?>
 
 <?php
@@ -107,7 +110,7 @@ if ($session->getFlashdata('password_tab_active')) {
                                     <div class="row">
                                         <div class="mb-3 col-md-6">
                                             <label class="form-label" for="departamento">Departamento</label>
-                                            <select class="form-control choices-single" id="departamento" name="departamento">
+                                            <select class="form-select" id="departamento" name="departamento">
                                                 <option></option>
                                                 <?php foreach ($departamentos as $key => $value) {
                                                     if (isset($direccionEnvio) && $key === $direccionEnvio['departamento']) {
@@ -125,7 +128,7 @@ if ($session->getFlashdata('password_tab_active')) {
                                         </div>
                                         <div class="mb-3 col-md-6">
                                             <label class="form-label" for="municipio">Municipio</label>
-                                            <select class="form-control choices-single" id="municipio" name="municipio">
+                                            <select class="form-select" id="municipio" name="municipio">
                                                 <option></option>
                                                 <?php if (isset($direccionEnvio)) {
                                                 ?>
@@ -176,6 +179,7 @@ if ($session->getFlashdata('password_tab_active')) {
 <?= $this->endSection() ?>
 <?= $this->section('scripts') ?>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/es6-shim/0.35.3/es6-shim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tom-select@2.1.0/dist/js/tom-select.complete.min.js"></script>
 <script src="<?= base_url('js/formvalidation/dist/js/FormValidation.min.js') ?>"></script>
 <script src="<?= base_url('js/formvalidation/dist/js/plugins/Bootstrap5.js') ?>"></script>
 <script src="<?= base_url('js/formvalidation/dist/js/locales/es_ES.min.js') ?>"></script>
@@ -293,27 +297,44 @@ if ($session->getFlashdata('password_tab_active')) {
     });
 </script>
 <script>
-    var municipio = new Choices(document.getElementById('municipio'), {
-        itemSelectText: 'Click para seleccionar',
-        noResultsText: 'No se encontraron resultados',
+    var municipio = new TomSelect("#municipio", {
+        allowEmptyOption: false,
+        create: false,
+        maxItems: 1,
+        plugins: ['clear_button', 'dropdown_input'],
+        persist: false,
+        render: {
+            no_results: function(data, escape) {
+                return '<div class="no-results"><i class="fa-solid fa-magnifying-glass"></i> No hay resultados para "' + escape(data.input) + '"</div>';
+            },
+        }
     });
-    var departamento = new Choices(document.getElementById('departamento'), {
-        itemSelectText: 'Click para seleccionar',
-        noResultsText: 'No se encontraron resultados',
-    });
-    departamento.passedElement.element.addEventListener('change', function(event) {
-        fetch(`<?= base_url('municipios') ?>/${event.detail.value}`, {
-            method: "get",
-            headers: {
-                "Content-Type": "application/json",
-                "X-Requested-With": "XMLHttpRequest"
-            }
-        }).then(response => {
-            return response.json()
-        }).then((municipios) => {
-            municipio.clearChoices();
-            municipio.setValue(municipios);
-        });
+
+    var departamento = new TomSelect("#departamento", {
+        allowEmptyOption: false,
+        create: false,
+        maxItems: 1,
+        plugins: ['clear_button', 'dropdown_input'],
+        persist: false,
+        render: {
+            no_results: function(data, escape) {
+                return '<div class="no-results"><i class="fa-solid fa-magnifying-glass"></i> No hay resultados para "' + escape(data.input) + '"</div>';
+            },
+        },
+        onChange: function(value) {
+            fetch(`<?= base_url('municipios') ?>/${value}`, {
+                method: "get",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-Requested-With": "XMLHttpRequest"
+                }
+            }).then(response => {
+                return response.json()
+            }).then((municipios) => {
+                let control = municipio.tomselect;
+                control.addOptions(municipios);
+            });
+        }
     });
 </script>
 <script>

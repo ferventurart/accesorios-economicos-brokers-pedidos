@@ -80,38 +80,43 @@ class Auth extends BaseController
 
     public function sendResetLink()
     {
-        $email = $this->request->getPost('email');
-        if (isset($email)) {
-            $usuario = $this->model->where('email', $email)->first();
-            if (!isset($usuario)) {
-                configure_flash_alert('warning', 'Correo no fue enviado.', 'El correo electr&oacute;nico no pertenece a ningun usuario.');
-                return auth_redirect();
+        try {
+            $email = $this->request->getPost('email');
+            if (isset($email)) {
+                $usuario = $this->model->where('email', $email)->first();
+                if (!isset($usuario)) {
+                    configure_flash_alert('warning', 'Correo no fue enviado.', 'El correo electr&oacute;nico no pertenece a ningun usuario.');
+                    return auth_redirect();
+                }
+    
+                $tokenVigente = $this->verificacionCorreoModel->where(['usuario_id' => $usuario['id'], 'tipo' => EMAIL_RESET_PASSWORD, 'expirado' => 0])->first();
+                if (isset($tokenVigente) && date($tokenVigente['expira']) > date('Y-m-d H:i:s') && (int) $tokenVigente['expirado'] === 0) {
+                    configure_flash_alert('warning', 'Tienes un enlace vigente.', 'Revisa tu bandeja de entrada, previamente se te ha enviado el correo de restauraci&oacute;n.');
+                    return auth_redirect();
+                }
+    
+                $token = base64_encode($usuario['email']) . uniqid();
+                $this->verificacionCorreoModel->save([
+                    'usuario_id' => $usuario['id'],
+                    'token' => $token,
+                    'tipo' => EMAIL_RESET_PASSWORD,
+                    'expira' => date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s') . ' + 1 hours')),
+                    'expirado' => 0
+                ]);
+    
+                if (send_email_helper($email, 'Restablecimiento de contraseña', draw_reset_password_email_helper(base_url() . '/restore-password/' . $token))) {
+                    $this->session->remove(['isLoggedIn', 'nombre', 'email', 'fotografia_url']);
+                    configure_flash_alert('success', 'Correo enviado exitosamente.', 'Correo electr&oacute;nico de restablecimiento de contrase&ntilde;a enviado.');
+                    return auth_redirect();
+                }
+            } else {
+                configure_flash_alert('danger', 'Error en el sistema.', 'Ocurrio un error generando el correo electr&oacute;nico de restauracion.');
+                return redirect()->to('/reset-password');
             }
-
-            $tokenVigente = $this->verificacionCorreoModel->where(['usuario_id' => $usuario['id'], 'tipo' => EMAIL_RESET_PASSWORD, 'expirado' => 0])->first();
-            if (isset($tokenVigente) && date($tokenVigente['expira']) > date('Y-m-d H:i:s') && (int) $tokenVigente['expirado'] === 0) {
-                configure_flash_alert('warning', 'Tienes un enlace vigente.', 'Revisa tu bandeja de entrada, previamente se te ha enviado el correo de restauraci&oacute;n.');
-                return auth_redirect();
-            }
-
-            $token = base64_encode($usuario['email']) . uniqid();
-            $this->verificacionCorreoModel->save([
-                'usuario_id' => $usuario['id'],
-                'token' => $token,
-                'tipo' => EMAIL_RESET_PASSWORD,
-                'expira' => date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s') . ' + 1 hours')),
-                'expirado' => 0
-            ]);
-
-            if (send_email_helper($email, 'Restablecimiento de contraseña', draw_reset_password_email_helper(base_url() . '/restore-password/' . $token))) {
-                $this->session->remove(['isLoggedIn', 'nombre', 'email', 'fotografia_url']);
-                configure_flash_alert('success', 'Correo enviado exitosamente.', 'Correo electr&oacute;nico de restablecimiento de contrase&ntilde;a enviado.');
-                return auth_redirect();
-            }
-        } else {
-            configure_flash_alert('danger', 'Error en el sistema.', 'Ocurrio un error generando el correo electr&oacute;nico de restauracion.');
-            return redirect()->to('/reset-password');
+        } catch (\Throwable $th) {
+            return auth_redirect();
         }
+       
     }
 
     public function restorePassword($token = null)
