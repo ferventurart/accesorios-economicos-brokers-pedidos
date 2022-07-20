@@ -81,7 +81,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                        <button type="submmit" class="btn btn btn-danger"><i class="fa-solid fa-trash-can"></i></i>&nbsp;Si, eliminarlo.</button>
+                        <button type="submit" class="btn btn btn-danger"><i class="fa-solid fa-trash-can"></i></i>&nbsp;Si, eliminarlo.</button>
                     </div>
                     </form>
                 </div>

@@ -40,6 +40,18 @@ class CategoriaProducto extends BaseController
             ->toJson();
     }
 
+    
+    public function getAllCategoriasProducto($all = false)
+    {
+        if ($this->request->isAJAX()) {
+            $categoriasProducto = $all ? $this->categoriaProductoModel->findAll() : $this->categoriaProductoModel->where('activa', 1)->findAll();
+            if (!isset($categoriasProducto)) {
+                return $this->failNotFound('No se encontraron registros.');
+            }
+            return $this->respond($categoriasProducto, 200);
+        }
+    }
+
     public function saveCategoriasProducto()
     {
         try {

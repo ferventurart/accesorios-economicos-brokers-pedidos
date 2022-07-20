@@ -96,9 +96,22 @@ $routes->post('/usuarios', 'Usuario::saveUsuarios', ['filter' => 'authGuard']);
 $routes->get('/categoriasProducto', 'CategoriaProducto::index', ['filter' => 'authGuard']);
 $routes->get('/get-categoriasProducto', 'CategoriaProducto::getCategoriasProducto', ['filter' => 'authGuard']);
 $routes->get('/get-categoriaProducto/(:any)', 'CategoriaProducto::getCategoriaProducto/$1', ['filter' => 'authGuard']);
+$routes->get('/categoriasProducto/getAll', 'CategoriaProducto::getAllCategoriasProducto', ['filter' => 'authGuard']);
 $routes->post('/delete-categoriaProducto', 'CategoriaProducto::deleteCategoriaProducto', ['filter' => 'authGuard']);
 $routes->post('/categoriasProducto', 'CategoriaProducto::saveCategoriasProducto', ['filter' => 'authGuard']);
-
+/*
+/*
+ * --------------------------------------------------------------------
+ * Productos Controller
+ * --------------------------------------------------------------------
+ */
+$routes->get('/productos', 'Producto::index', ['filter' => 'authGuard']);
+$routes->get('/get-productos', 'Producto::getProductos', ['filter' => 'authGuard']);
+$routes->get('/get-producto/(:any)', 'Producto::getProducto/$1', ['filter' => 'authGuard']);
+$routes->get('/get-sku-printable/(:any)', 'Producto::generateSkuPrintable/$1', ['filter' => 'authGuard']);
+$routes->post('/delete-producto', 'Producto::deleteProducto', ['filter' => 'authGuard']);
+$routes->post('/productos', 'Producto::saveProductos', ['filter' => 'authGuard']);
+/*
 /*
  * --------------------------------------------------------------------
  * Additional Routing

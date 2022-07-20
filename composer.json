@@ -13,6 +13,7 @@
         "hermawan/codeigniter4-datatables": "^0.6.1",
         "kint-php/kint": "^4.1.1",
         "laminas/laminas-escaper": "^2.9",
+        "picqer/php-barcode-generator": "^2.2",
         "psr/log": "^1.1"
     },
     "require-dev": {

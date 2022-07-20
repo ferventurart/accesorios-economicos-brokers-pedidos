@@ -37,7 +37,7 @@ class Rol extends BaseController
         if ($this->request->isAJAX()) {
             $roles = $this->rolModel->findAll();
             if (!isset($roles)) {
-                return $this->failNotFound('No se encontro el registro con el identificador ' . $id);
+                return $this->failNotFound('No se encontraron registros.');
             }
             return $this->respond($roles, 200);
         }

@@ -13,10 +13,10 @@
         <div class="row">
             <div class="col-xl-6">
                 <div class="mb-3 col-md-6">
-                    <label class="form-label" for="rolSearch"><i class="fa-solid fa-filter"></i>&nbsp;Filtrar por Rol</label>
-                    <select class="form-select" id="rolSearch" name="rolSearch">
+                    <label class="form-label" for="categoriasProductoSearch"><i class="fa-solid fa-filter"></i>&nbsp;Filtrar por Categoria</label>
+                    <select class="form-select" id="categoriasProductoSearch" name="categoriasProductoSearch">
                         <option value="">Seleccione una opci&oacute;n</option>
-                        <?php foreach ($roles as $value) {
+                        <?php foreach ($categoriasProducto as $value) {
                         ?>
                             <option value="<?= $value['id']; ?>"><?= $value['nombre']; ?></option>
                         <?php
@@ -41,11 +41,10 @@
                                 <thead>
                                     <tr>
                                         <th>Id</th>
+                                        <th>SKU</th>
                                         <th>Nombre</th>
-                                        <th>Email</th>
-                                        <th>Telefono</th>
+                                        <th>P. Venta</th>
                                         <th>Estado</th>
-                                        <th>Confirmado</th>
                                         <th>Opciones</th>
                                     </tr>
                                 </thead>
@@ -65,22 +64,40 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body m-3">
-                        <form id="dataForm" method="POST" action="<?= base_url('usuarios') ?>">
+                        <form id="dataForm" method="POST" action="<?= base_url('productos') ?>" enctype="multipart/form-data">
                             <?= csrf_field() ?>
                             <input class="form-control" type="hidden" id="id" name="id" value="0" />
                             <div class="mb-3">
+                                <label class="form-label">C&oacute;digo de Barra</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fa-solid fa-barcode"></i></span>
+                                    <input class="form-control" type="text" id="codigo_barra" name="codigo_barra" placeholder="Ingrese el c&oacute;digo de barra" />
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">SKU</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fa-solid fa-fingerprint"></i></span>
+                                    <input class="form-control" type="text" id="sku" name="sku" placeholder="Ingrese el sku del producto" />
+                                </div>
+                            </div>
+                            <div class="mb-3">
                                 <label class="form-label">Nombre</label>
-                                <input class="form-control" type="text" id="nombre" name="nombre" placeholder="Ingrese el nombre del usuario" />
+                                <input class="form-control" type="text" id="nombre" name="nombre" placeholder="Ingrese el nombre del producto" />
                             </div>
                             <div class="mb-3">
-                                <label class="form-label">Correo Electr&oacute;nico</label>
-                                <input class="form-control" type="email" id="email" name="email" placeholder="Ingrese su correo electr&oacute;nico" />
+                                <label class="form-label">Precio Broker</label>
+                                <input class="form-control" type="text" id="precio_broker" name="precio_broker" placeholder="Ingrese el precio para broker" data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'digits': 2, 'digitsOptional': false, 'rightAlign': false, 'placeholder': '0'" />
                             </div>
                             <div class="mb-3">
-                                <label class="form-label">Rol de Usuario</label>
-                                <select class="form-select" id="rol_id" name="rol_id">
+                                <label class="form-label">Precio Venta</label>
+                                <input class="form-control" type="text" id="precio_venta" name="precio_venta" placeholder="Ingrese el precio para el p&uacute;blico" data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'digits': 2, 'digitsOptional': false, 'rightAlign': false, 'placeholder': '0'" />
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Categoria de Producto</label>
+                                <select class="form-select" id="categoria_id" name="categoria_id">
                                     <option value="">Seleccione una opci&oacute;n</option>
-                                    <?php foreach ($roles as $value) {
+                                    <?php foreach ($categoriasProducto as $value) {
                                     ?>
                                         <option value="<?= $value['id']; ?>"><?= $value['nombre']; ?></option>
                                     <?php
@@ -89,30 +106,23 @@
                                 </select>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="telefono">Telefono</label>
-                                <input type="text" class="form-control" id="telefono" name="telefono" placeholder="Ingrese su telefono" data-inputmask-mask="9999-9999" />
+                                <label class="form-label" for="direccion">Descripci&oacute;n</label>
+                                <textarea rows="2" class="form-control" id="descripcion" name="descripcion" placeholder="Ingrese una descripci&oacute;n del producto"></textarea>
                             </div>
                             <div class="mb-3">
-                                <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" id="requiere_cambio_password" name="requiere_cambio_password" value="1" checked>
-                                    <label class="form-check-label" for="requiere_cambio_password">Requiere Cambio de Password</label>
+                                <label class="form-label" for="file">Imagen del Producto</label>
+                                <div class="text-left">
+                                    <img alt="" id="imageUpload" src="<?= base_url() . "/img/resources/add-picture.png" ?>" class="img-responsive mt-2" width="128" height="128">
+                                    <div class="mt-2">
+                                        <label for="finput" class="btn btn-primary"><i class="fas fa-upload"></i> Subir</label>
+                                    </div>
+                                    <small>Para obtener mejores resultados, use una imagen de al menos 128 px por 128 px en formato .jpg</small>
+                                    <input type="file" name="file" id="finput" style="visibility:hidden;" accept="image/*" onchange="onFileUpload(this);">
                                 </div>
                             </div>
                             <div class="mb-3">
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" id="mfa_habilitado" name="mfa_habilitado" value="1">
-                                    <label class="form-check-label" for="mfa_habilitado">Multifactor de Autenticacion</label>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" id="email_confirmado" disabled>
-                                    <label class="form-check-label" for="activo">Email Confirmado</label>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" id="activo" name="activo" value="1" disabled>
+                                    <input class="form-check-input" type="checkbox" id="activo" name="activo" value="1" checked>
                                     <label class="form-check-label" for="activo">Activo</label>
                                 </div>
                             </div>
@@ -134,7 +144,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body m-3">
-                        <form id="deleteForm" method="POST" action="<?= base_url('delete-usuario') ?>">
+                        <form id="deleteForm" method="POST" action="<?= base_url('delete-producto') ?>">
                             <?= csrf_field() ?>
                             <input class="form-control" type="hidden" id="deleteId" name="deleteId" value="0" />
                             <p id="deleteMessage">¿Esta seguro de eliminar el registro seleccionado?</p>
@@ -147,7 +157,23 @@
                 </div>
             </div>
         </div>
-        <!-- END  modal -->
+        <!-- END modalDeleteForm modal -->
+        <div class="modal fade" id="modalPrintSku" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+                <div class="modal-content">
+                    <div class="modal-header bg-secondary">
+                        <h5 class="modal-title text-white">Imprimir Etiqueta</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body m-3" id="body-print">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END modalPrintSku modal -->
     </div>
 </main>
 <?= $this->endSection() ?>
@@ -160,8 +186,8 @@
 <script src="<?= base_url('js/datatables.js') ?>"></script>
 <script>
     $(document).ready(function() {
-        $('.sidebar-usuarios').addClass('active');
-        new TomSelect("#rolSearch", {
+        $('.sidebar-productos').addClass('active');
+        new TomSelect("#categoriasProductoSearch", {
             allowEmptyOption: false,
             create: false,
             maxItems: 1,
@@ -183,9 +209,9 @@
             serverSide: true,
             order: [],
             ajax: {
-                url: "<?= base_url('get-usuarios') ?>",
+                url: "<?= base_url('get-productos') ?>",
                 data: function(d) {
-                    d.rolSearch = $('#rolSearch').val();
+                    d.categoriaProductoSearch = $('#categoriasProductoSearch').val();
                 }
             },
             columnDefs: [{
@@ -195,7 +221,7 @@
             }]
         });
 
-        $('#rolSearch').change(function(event) {
+        $('#categoriasProductoSearch').change(function(event) {
             table.ajax.reload();
         });
     });
@@ -217,26 +243,47 @@
                         },
                     },
                 },
-                email: {
+                precio_broker: {
                     validators: {
                         notEmpty: {},
-                        emailAddress: {},
-                        stringLength: {
-                            min: 8,
-                            max: 100
+                        numeric: {
+                            thousandsSeparator: ',',
+                            decimalSeparator: '.',
                         },
                     },
                 },
-                rol_id: {
+                precio_venta: {
+                    validators: {
+                        notEmpty: {},
+                        numeric: {
+                            thousandsSeparator: ',',
+                            decimalSeparator: '.',
+                        },
+                    },
+                },
+                categoria_id: {
                     validators: {
                         notEmpty: {},
                     },
                 },
-                telefono: {
+                descripcion: {
                     validators: {
-                        notEmpty: {},
                         stringLength: {
-                            max: 9
+                            max: 150
+                        }
+                    },
+                },
+                sku: {
+                    validators: {
+                        stringLength: {
+                            max: 70
+                        }
+                    },
+                },
+                codigo_barra: {
+                    validators: {
+                        stringLength: {
+                            max: 100
                         }
                     },
                 },
@@ -271,7 +318,7 @@
     });
 </script>
 <script>
-    const rolIdSelect = new TomSelect("#rol_id", {
+    const categoriaIdSelect = new TomSelect("#categoria_id", {
         allowEmptyOption: false,
         create: false,
         maxItems: 1,
@@ -288,7 +335,7 @@
     const obtener = (id) => {
         document.getElementById('mainRow').style.display = "none";
         document.getElementById('loader').style.display = "block";
-        fetch(`<?= base_url('get-usuario') ?>/${id}`, {
+        fetch(`<?= base_url('get-producto') ?>/${id}`, {
             method: "get",
             headers: {
                 "Content-Type": "application/json",
@@ -296,19 +343,19 @@
             }
         }).then(response => {
             return response.json()
-        }).then((usuario) => {
-            console.log(usuario);
-            document.getElementById('id').value = usuario.id;
-            document.getElementById('nombre').value = usuario.nombre;
-            document.getElementById('email').value = usuario.email;
-            document.getElementById('telefono').value = usuario.telefono;
-            rolIdSelect.setValue(usuario.rol_id);
-            document.getElementById("requiere_cambio_password").checked = usuario.requiere_cambio_password == "1" ? true : false;
-            document.getElementById("mfa_habilitado").checked = usuario.mfa_habilitado == "1" ? true : false;
-            document.getElementById("email_confirmado").checked = usuario.email_confirmado == "1" ? true : false;
-            document.getElementById("activo").checked = usuario.activo == "1" ? true : false;
+        }).then((producto) => {
+            console.log(producto);
+            document.getElementById('id').value = producto.id;
+            document.getElementById('nombre').value = producto.nombre;
+            document.getElementById('precio_broker').value = producto.precio_broker;
+            document.getElementById('precio_venta').value = producto.precio_venta;
+            categoriaIdSelect.setValue(producto.categoria_id);
+            document.getElementById('descripcion').value = producto.descripcion;
+            document.getElementById('sku').value = producto.sku;
+            document.getElementById('codigo_barra').value = producto.codigo_barra;
+            document.getElementById("activo").checked = producto.activo == "1" ? true : false;
             document.getElementById("activo").disabled = false;
-
+            document.getElementById("imageUpload").src = producto.imagen_producto == null ? "<?= base_url() . "/img/resources/add-picture.png" ?>" : producto.imagen_producto;
             modalDataForm.show();
             document.getElementById('mainRow').style.display = "block";
             document.getElementById('loader').style.display = "none";
@@ -327,6 +374,23 @@
     const borrar = (id, nombre) => {
         document.getElementById('deleteId').value = id;
         document.getElementById('deleteMessage').innerHTML = `¿Esta seguro de eliminar el registro: <strong>${nombre}</strong>?`;
+    }
+</script>
+<script>
+    const imprimirSku = (sku) => {
+        window.open(`<?= base_url('get-sku-printable') ?>/${sku}`, "_blank");
+    }
+</script>
+<script>
+    function onFileUpload(input, id) {
+        id = id || '#imageUpload';
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                $(id).attr('src', e.target.result).width(128).height(128)
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
     }
 </script>
 <?= $this->endSection() ?>

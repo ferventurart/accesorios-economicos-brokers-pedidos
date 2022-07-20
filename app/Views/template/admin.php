@@ -68,6 +68,11 @@
                             <i class="align-middle" data-feather="tag"></i> <span class="align-middle">Categorias de Producto</span>
                         </a>
                     </li>
+                    <li class="sidebar-item sidebar-productos">
+                        <a class="sidebar-link" href="<?= base_url('productos') ?>">
+                            <i class="align-middle" data-feather="box"></i> <span class="align-middle">Productos</span>
+                        </a>
+                    </li>
                     <li class="sidebar-header">
                         Accesos del Sistema
                     </li>
